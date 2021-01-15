@@ -1,0 +1,45 @@
+﻿@model ShoeStore.Models.Shoe
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Shoe</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ShoeId" />
+            <div class="form-group">
+                <label asp-for="ShoeName" class="control-label"></label>
+                <input asp-for="ShoeName" class="form-control" />
+                <span asp-validation-for="ShoeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShoeImage" class="control-label">Upload Image:</label>
+                <p asp-validation-for="ShoeImage" class="text-success">File path must be in "C:\"</p>
+                <input asp-for="ShoeImage" type="file" value="ProductImage" class="form-control-file" required />
+                <img src="@(ViewBag.Base64String = "data:image/jpg;base64," + Convert.ToBase64String(Model.ShoeImage, 0, Model.ShoeImage.Length))" style="max-width:100px;max-height:100px; margin-top:10px;" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-action="EditShoe" type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

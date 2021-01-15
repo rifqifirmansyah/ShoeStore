@@ -1,0 +1,96 @@
+﻿@model ShoeStore.Services.PaginatedList<ShoeStore.Models.Shoe>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+@*Session Timeout*@
+<script language="javascript" type="text/javascript">
+    var userId = '@(ViewBag.userId)';
+    var time = 60 * 1000;
+    if (userId != "" ) {
+        setTimeout('SessionWarning()', time);
+    }
+    function SessionWarning() {
+        var message = "Your session will expire soon and you will be logged out.";
+
+        setTimeout('loggedOut()', time);
+        alert(message);
+    }
+    function loggedOut() {
+        var message = "You have been logged out.";
+        alert(message);
+        document.getElementById("logoutForm").submit();
+    }
+</script>
+@*Search*@
+<form role="search" asp-action="Index" method="get" style="margin : 10px 0px;">
+    <div class="input-group add-on">
+        <input class="form-control" name="searchString" value="@ViewData["CurrentFilter"]" placeholder="Search by shoe name..." type="text" required>
+        <div class="input-group-btn">
+            <button class="btn btn-default" type="submit">Search</button>
+        </div>
+    </div>
+</form>
+@*Sort*@
+@if (ViewData["CurrentSort"].ToString() == "title_asc")
+{
+    ViewData["SortTitle"] = "title_desc";
+    ViewData["SortPrice"] = "price_asc";
+}
+else if (ViewData["CurrentSort"].ToString() == "price_asc")
+{
+    ViewData["SortPrice"] = "price_desc";
+    ViewData["SortTitle"] = "title_asc";
+}
+else
+{
+    ViewData["SortTitle"] = "title_asc";
+    ViewData["SortPrice"] = "price_asc";
+}
+@foreach (var item in Model)
+{
+    <div class="row" style="display: inline-block; margin: 10px 20px;">
+        <div class="card" style="border: solid; border-color: lightgray; padding: 15px">
+            <img class="card-img-top" src="@(ViewBag.Base64String = "data:image/jpg;base64," + Convert.ToBase64String(item.ShoeImage, 0, item.ShoeImage.Length))" style="max-width:150px;max-height:150px" alt="shoe image">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(modelItem => item.ShoeName)</h5>
+                <p class="card-text">$@Html.DisplayFor(modelItem => item.Price)</p>
+                <a class="btn btn-primary" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.ShoeId">Add To Cart</a>
+                <a class="btn btn-primary" asp-controller="Shoe" asp-action="Details" asp-route-id="@item.ShoeId">Details</a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a class="btn btn-primary" asp-controller="Shoe" asp-action="Edit" asp-route-id="@item.ShoeId">Edit</a>
+                    <a class="btn btn-primary" asp-controller="Shoe" asp-action="DeleteShoe" asp-route-id="@item.ShoeId" >Delete</a>
+                }
+            </div>
+        </div>
+    </div>
+}
+@*Pagination*@
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+<div style="clear: left;">
+    <div style="float: right;">
+        <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-page="@(Model.PageIndex - 1)"
+           asp-route-searchString="@ViewData["CurrentFilter"]"
+           class="btn btn-default @prevDisabled">
+            Previous
+        </a>
+        <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-page="@(Model.PageIndex + 1)"
+           asp-route-searchString="@ViewData["CurrentFilter"]"
+           class="btn btn-default @nextDisabled">
+            Next
+        </a>
+    </div>
+</div>
+<br />
+<br />
+<br />
+<br />

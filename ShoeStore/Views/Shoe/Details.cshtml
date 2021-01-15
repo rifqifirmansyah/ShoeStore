@@ -1,0 +1,42 @@
+﻿@model ShoeStore.Models.Shoe
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="jumbotron jumbotron-fluid" style="width: 80%; margin: 25px auto;">
+    <div class="row">
+        <div class="col-md-12" style="margin: 10px auto;">
+            <h2 style="text-align:center;">Shoe Details</h2>
+            <dl class="dl-horizontal" style="margin: 30px auto; width: 50%; font-size:20px;">
+                <dt>
+                    @Html.DisplayNameFor(model => model.ShoeName) :
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ShoeName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ShoeImage) :
+                </dt>
+                <dd>
+                    <img src="@(ViewBag.Base64String = "data:image/jpg;base64," + Convert.ToBase64String(Model.ShoeImage, 0, Model.ShoeImage.Length))" style="max-width:100px;max-height:100px" />
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Price) :
+                </dt>
+                <dd>
+                    $@Html.DisplayFor(model => model.Price)
+                </dd>
+            </dl>
+            <div style="text-align:center;">
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Shoe" asp-action="Edit" asp-route-id="@Model.ShoeId">Edit</a>
+                }
+                <a asp-controller="Home" asp-action="Index">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>

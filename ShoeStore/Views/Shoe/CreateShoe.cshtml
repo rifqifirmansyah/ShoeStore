@@ -1,0 +1,35 @@
+﻿@model ShoeStore.Models.Shoe
+
+@{
+    ViewData["Title"] = "CreateShoe";
+}
+
+<h2>Created successfully</h2>
+
+<div>
+    <h4>Shoe</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ShoeName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShoeName)
+        </dd>
+        <dt>
+            <img src="@(ViewBag.Base64String = "data:image/jpg;base64," + Convert.ToBase64String(Model.ShoeImage, 0, Model.ShoeImage.Length))" style="max-width:100px;max-height:100px" />
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShoeImage)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

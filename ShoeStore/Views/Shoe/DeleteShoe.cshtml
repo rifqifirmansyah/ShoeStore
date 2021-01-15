@@ -1,0 +1,41 @@
+﻿@model ShoeStore.Models.Shoe
+
+@{
+    ViewData["Title"] = "DeleteShoe";
+}
+
+<h2>Shoe has been deleted</h2>
+
+<div>
+    <h4>Shoe</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ShoeId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShoeId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShoeName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShoeName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShoeImage)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShoeImage)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
